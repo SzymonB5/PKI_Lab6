@@ -13,13 +13,7 @@ var authed = false;
 
 app.get('/', (req, res) => {
     if (!authed) {
-        // Generate an OAuth URL and redirect there
-        const url = oAuth2Client.generateAuthUrl({
-            access_type: 'offline',
-            scope: 'https://www.googleapis.com/auth/userinfo.profile'
-        });
-        console.log(url)
-        res.redirect(url);
+        res.redirect('/login');
     } else {
         var oauth2 = google.oauth2({auth: oAuth2Client, version: 'v2'});
         oauth2.userinfo.v2.me.get(function (err, result) {
@@ -36,6 +30,14 @@ app.get('/', (req, res) => {
                 '});}</script>'));
         })
     }
+});
+
+app.get('/login', (req, res) => {
+    const url = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: 'https://www.googleapis.com/auth/userinfo.profile'
+    });
+    res.send('<a href="' + url + '">Login with Google</a>');
 });
 
 app.get('/auth/google/callback', function (req, res) {
