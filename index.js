@@ -2,7 +2,7 @@ const { google } = require('googleapis');
 const { OAuth2Client } = require("google-auth-library");
 const express = require('express')
 const OAuth2Data = require('./google_key.json')
-const { client } = require("pg")
+const { Client } = require("pg")
 
 const app = express()
 
